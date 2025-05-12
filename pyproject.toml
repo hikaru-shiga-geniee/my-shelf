@@ -9,3 +9,13 @@ dependencies = [
     "ebooklib", # EPUBテキスト抽出用
     "beautifulsoup4", # HTMLパース用
 ]
+
+[tool.pytest.ini_options]
+pythonpath = [
+  "src/"
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.3.5",
+]
