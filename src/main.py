@@ -54,13 +54,13 @@ def handle_add(file_path: str, book_id: str, title: str, memo: str = "") -> None
     book_path = Path(file_path)
     if not book_path.exists():
         logger.error(f"ファイルが見つかりません: {book_path}")
-        return
+        sys.exit(1)
 
     # 本のディレクトリを作成
     book_dir = SHELF_DIR / book_id
     if book_dir.exists():
         logger.error(f"ID '{book_id}' は既に使用されています。")
-        return
+        sys.exit(1)
     book_dir.mkdir(exist_ok=True)
 
     # 本のファイルをコピー
@@ -105,12 +105,12 @@ def handle_show(book_id: str) -> None:
     
     if not book_dir.exists():
         logger.error(f"ID '{book_id}' の本が見つかりません。")
-        return
+        sys.exit(1)
     
     text_file = book_dir / f"{book_id}.txt"
     if not text_file.exists():
         logger.error(f"テキストファイルが見つかりません: {text_file}")
-        return
+        sys.exit(1)
     
     print(text_file.read_text())
 
@@ -133,12 +133,12 @@ def handle_edit(book_id: str, title: Optional[str] = None, memo: Optional[str] =
     
     if not book_dir.exists():
         logger.error(f"ID '{book_id}' の本が見つかりません。")
-        return
+        sys.exit(1)
     
     json_file = book_dir / f"{book_id}.json"
     if not json_file.exists():
         logger.error(f"メタデータファイルが見つかりません: {json_file}")
-        return
+        sys.exit(1)
     
     # 現在のメタデータを読み込む
     with open(json_file, "r", encoding="utf-8") as f:
@@ -177,7 +177,7 @@ def handle_delete(book_id: str) -> None:
     
     if not book_dir.exists():
         logger.error(f"ID '{book_id}' の本が見つかりません。")
-        return
+        sys.exit(1)
     
     shutil.rmtree(book_dir)
     logger.info(f"本 '{book_id}' を削除しました。")
@@ -232,12 +232,12 @@ def handle_info(book_id: str) -> None:
     
     if not book_dir.exists():
         logger.error(f"ID '{book_id}' の本が見つかりません。")
-        return
+        sys.exit(1)
     
     json_file = book_dir / f"{book_id}.json"
     if not json_file.exists():
         logger.error(f"メタデータファイルが見つかりません: {json_file}")
-        return
+        sys.exit(1)
     
     # メタデータを読み込む
     with open(json_file, "r", encoding="utf-8") as f:
