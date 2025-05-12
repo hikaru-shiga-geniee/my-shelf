@@ -216,11 +216,42 @@ def handle_list() -> None:
     writer.writerows(books)
 
 
+def handle_info(book_id: str) -> None:
+    """
+    本のメタデータ情報を表示します。
+    
+    指定されたIDの本のメタデータをフォーマットしてJSON形式で標準出力に表示します。
+    
+    Args:
+        book_id (str): 情報を表示する本のID
+        
+    Returns:
+        None
+    """
+    book_dir = SHELF_DIR / book_id
+    
+    if not book_dir.exists():
+        logger.error(f"ID '{book_id}' の本が見つかりません。")
+        return
+    
+    json_file = book_dir / f"{book_id}.json"
+    if not json_file.exists():
+        logger.error(f"メタデータファイルが見つかりません: {json_file}")
+        return
+    
+    # メタデータを読み込む
+    with open(json_file, "r", encoding="utf-8") as f:
+        metadata = json.load(f)
+    
+    # 整形されたJSONを標準出力に表示
+    print(json.dumps(metadata, ensure_ascii=False, indent=4))
+
+
 def setup_subparsers(parser: argparse.ArgumentParser) -> argparse.ArgumentParser:
     """
     コマンドライン引数のサブパーサーを設定します。
     
-    各コマンド（add, show, edit, delete, list）に対応するサブパーサーを作成し、
+    各コマンド（add, show, edit, delete, list, info）に対応するサブパーサーを作成し、
     それぞれに必要な引数を設定します。
     
     Args:
@@ -260,6 +291,11 @@ def setup_subparsers(parser: argparse.ArgumentParser) -> argparse.ArgumentParser
     list_parser = subparsers.add_parser("list", help="すべての本をリスト表示")
     list_parser.set_defaults(func="list")
     
+    # info コマンド
+    info_parser = subparsers.add_parser("info", help="本のメタデータ情報を表示")
+    info_parser.add_argument("id", help="情報を表示する本のID")
+    info_parser.set_defaults(func="info")
+    
     return parser
 
 
@@ -293,6 +329,8 @@ def main() -> None:
             handle_delete(args.id)
         elif args.func == "list":
             handle_list()
+        elif args.func == "info":
+            handle_info(args.id)
     else:
         parser.print_help()
 
