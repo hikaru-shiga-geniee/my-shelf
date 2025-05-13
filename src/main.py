@@ -7,7 +7,7 @@ import shutil
 import sys
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, List, Optional
+from typing import Optional
 
 from extract_text import extract_text
 
@@ -75,7 +75,7 @@ def handle_add(file_path: str, book_id: str, title: str, memo: str = "") -> None
     
     # メタデータをJSONで保存
     now = datetime.now().isoformat()
-    metadata: Dict[str, str] = {
+    metadata: dict[str, str] = {
         "id": book_id,
         "title": title,
         "memo": memo,
@@ -141,8 +141,8 @@ def handle_edit(book_id: str, title: Optional[str] = None, memo: Optional[str] =
         sys.exit(1)
     
     # 現在のメタデータを読み込む
-    with open(json_file, "r", encoding="utf-8") as f:
-        metadata: Dict[str, str] = json.load(f)
+    with open(json_file, encoding="utf-8") as f:
+        metadata: dict[str, str] = json.load(f)
     
     # 更新するフィールドを処理
     if title:
@@ -197,7 +197,7 @@ def handle_list() -> None:
         logger.info("本棚は空です。")
         return
     
-    books: List[Dict[str, str]] = []
+    books: list[dict[str, str]] = []
     for book_dir in SHELF_DIR.iterdir():
         if not book_dir.is_dir():
             continue
@@ -206,7 +206,7 @@ def handle_list() -> None:
         if not json_file.exists():
             continue
         
-        with open(json_file, "r", encoding="utf-8") as f:
+        with open(json_file, encoding="utf-8") as f:
             metadata = json.load(f)
             books.append(metadata)
     
@@ -240,7 +240,7 @@ def handle_info(book_id: str) -> None:
         sys.exit(1)
     
     # メタデータを読み込む
-    with open(json_file, "r", encoding="utf-8") as f:
+    with open(json_file, encoding="utf-8") as f:
         metadata = json.load(f)
     
     # 整形されたJSONを標準出力に表示

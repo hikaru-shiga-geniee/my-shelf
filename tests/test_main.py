@@ -53,7 +53,7 @@ def test_add_book_parametrized(setup_teardown, file_info):
     assert json_file.exists()
     
     # メタデータの内容を確認
-    with open(json_file, "r", encoding="utf-8") as f:
+    with open(json_file, encoding="utf-8") as f:
         metadata = json.load(f)
     
     assert metadata["id"] == book_id
@@ -118,7 +118,7 @@ def test_edit_book_parametrized(setup_teardown, file_info):
     
     # 編集後のメタデータを確認
     json_file = SHELF_DIR / book_id / f"{book_id}.json"
-    with open(json_file, "r", encoding="utf-8") as f:
+    with open(json_file, encoding="utf-8") as f:
         metadata = json.load(f)
     
     assert metadata["title"] == new_title
@@ -224,7 +224,7 @@ def test_add_book(setup_teardown):
     assert json_file.exists()
     
     # メタデータの内容を確認
-    with open(json_file, "r", encoding="utf-8") as f:
+    with open(json_file, encoding="utf-8") as f:
         metadata = json.load(f)
     
     assert metadata["id"] == book_id
@@ -289,7 +289,7 @@ def test_edit_book(setup_teardown):
     
     # 編集後のメタデータを確認
     json_file = SHELF_DIR / book_id / f"{book_id}.json"
-    with open(json_file, "r", encoding="utf-8") as f:
+    with open(json_file, encoding="utf-8") as f:
         metadata = json.load(f)
     
     assert metadata["title"] == new_title
