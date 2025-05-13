@@ -14,12 +14,10 @@ from extract_text import extract_text_from_pdf, extract_text_from_epub
 def test_extract_text_from_pdf():
     path = Path("tests/files/test.pdf")
     txt = extract_text_from_pdf(path)
-    expected_text = Path("tests/files/test.txt").read_text()
-    assert txt != None
+    assert txt is not None
 
 
 def test_extract_text_from_epub():
     path = Path("tests/files/test.epub")
     txt = extract_text_from_epub(path)
-    expected_text = Path("tests/files/test.txt").read_text()
-    assert txt != None
+    assert txt is not None

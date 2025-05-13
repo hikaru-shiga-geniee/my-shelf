@@ -1,4 +1,3 @@
-import sys
 import fitz  # PyMuPDF
 from pathlib import Path
 import ebooklib
@@ -68,7 +67,7 @@ def extract_text_from_epub(path: Path) -> str | None:
             full_text += text + ""
         return full_text
 
-    except FileNotFoundError as e:  # FileNotFoundError も Exception の一種だが、個別でログメッセージを変えても良い
+    except FileNotFoundError:  # FileNotFoundError も Exception の一種だが、個別でログメッセージを変えても良い
         # print の代わりに logger.error を使用
         logger.error(
             f"Error: File not found: {path}", exc_info=True
