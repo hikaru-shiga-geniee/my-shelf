@@ -73,7 +73,7 @@ def extract_text_from_epub(path: Path) -> str | None:
             f"Error: File not found: {path}", exc_info=True
         )  # FileNotFoundError では通常スタックトレースは不要かもしれないが、付けておいても問題ない
         return None
-    except ebooklib.epub.EpubException as e:
+    except epub.EpubException as e:  # ebooklib.epub.EpubException から epub.EpubException に変更
         # print の代わりに logger.error を使用
         logger.error(f"Error: Failed to read EPUB file ({path}): {e}", exc_info=True)
         return None
