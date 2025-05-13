@@ -20,7 +20,7 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 # 定数
-SHELF_DIR = Path("shelf")
+SHELF_DIR = Path("shelf_data")
 
 
 def setup_shelf() -> None:
