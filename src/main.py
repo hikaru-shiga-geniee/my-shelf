@@ -3,6 +3,7 @@ import argparse
 import csv
 import json
 import logging
+import os
 import shutil
 import sys
 from datetime import datetime
@@ -20,7 +21,15 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 # 定数
-SHELF_DIR = Path("shelf_data")
+# 実行ファイルの場所を基準にシェルフディレクトリを設定
+if getattr(sys, 'frozen', False):
+    # PyInstallerなどでコンパイルされた実行ファイルの場合
+    EXEC_PATH = Path(sys.executable).parent
+else:
+    # 通常のPythonスクリプトとして実行される場合
+    EXEC_PATH = Path(os.path.dirname(os.path.abspath(__file__)))
+
+SHELF_DIR = EXEC_PATH / "shelf_data"
 
 
 def setup_shelf() -> None:
