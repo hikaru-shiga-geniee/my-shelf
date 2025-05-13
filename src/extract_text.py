@@ -67,13 +67,17 @@ def extract_text_from_epub(path: Path) -> str | None:
             full_text += text + ""
         return full_text
 
-    except FileNotFoundError:  # FileNotFoundError も Exception の一種だが、個別でログメッセージを変えても良い
+    except (
+        FileNotFoundError
+    ):  # FileNotFoundError も Exception の一種だが、個別でログメッセージを変えても良い
         # print の代わりに logger.error を使用
         logger.error(
             f"Error: File not found: {path}", exc_info=True
         )  # FileNotFoundError では通常スタックトレースは不要かもしれないが、付けておいても問題ない
         return None
-    except epub.EpubException as e:  # ebooklib.epub.EpubException から epub.EpubException に変更
+    except (
+        epub.EpubException
+    ) as e:  # ebooklib.epub.EpubException から epub.EpubException に変更
         # print の代わりに logger.error を使用
         logger.error(f"Error: Failed to read EPUB file ({path}): {e}", exc_info=True)
         return None
@@ -122,4 +126,4 @@ def extract_text(path: Path) -> str | None:
             logger.warning(
                 f"Unsupported file type: '{path.suffix}' for file '{path}'. Only .pdf and .epub are supported."
             )
-            return None 
+            return None
